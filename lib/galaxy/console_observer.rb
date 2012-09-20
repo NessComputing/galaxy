@@ -29,18 +29,14 @@ module Galaxy
     end
 
     def to_hash(obj)
-      hash = nil
-      if obj.respond_to?(marshal_dump)
-        dump = obj.marshal_dump
-
-        if (obj.class == OpenStruct)
-          dump[:slot_info] = obj[:slot_info].marshal_dump if obj.has_key? :slot_info
-        end
-
-        dump
-      else
-        obj # good luck...
+      hash = {}
+      if obj.respond_to?("marshal_dump")
+        hash = obj.marshal_dump
+        
+        hash[:slot_info] = hash[:slot_info].marshal_dump if hash.has_key?(:slot_info) and hash[:slot_info].respond_to?("marshal_dump")
       end
+      
+      hash
     end
   end
 end
