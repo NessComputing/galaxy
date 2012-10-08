@@ -1,3 +1,3 @@
 module Galaxy
-  Version = "3.6.3"
+  Version = "3.6.4beta"
 end
