@@ -32,7 +32,7 @@ module Galaxy
       @db = {}
       @mutex = Mutex.new
 
-      @observer = ConsoleObserver.new observer_host
+      @observer = ConsoleObserver.new(observer_host, @logger)
       @refreshed = false
 
       Thread.new do

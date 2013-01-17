@@ -5,26 +5,33 @@ require 'ostruct'
 module Galaxy
   class ConsoleObserver
 
-    def initialize(observer_host = nil)
+    def initialize(observer_host = nil, logger = nil)
       @observer_host = observer_host
       @host, @port = @observer_host.split(':') unless @observer_host.nil?
+      @logger = logger
+      
+      @logger.info("console_observer started with #{@observer_host}")
 
       @socket = UDPSocket.new
     end
 
     def changed(key, value = nil)
+      @logger.info("console_observer changed info: #{key.to_s}")
+      
       unless @observer_host.nil?
         if value.nil?
           value = OpenStruct.new
           value.timestamp = Time.now.to_s
         end
 
+        @logger.info("console_observer trying to send")
         @socket.send(
-          {key => to_hash(value) }.to_json,
+          { key => to_hash(value) }.to_json,
           0,
           @host,
           @port
         )
+        @logger.info("console_observer change sent")
       end
     end
 
