@@ -161,7 +161,11 @@ module Galaxy
         unless line =~ /^\s*\#/
           line.split(' ').each do |element|
             key,*values = element.split("=")
-            jvm_lines[key.strip] = (values.length == 0) ? nil : values.join("=").strip
+            if key[0] == '!'
+              jvm_lines.delete key[1..-1].strip
+            else
+              jvm_lines[key.strip] = (values.length == 0) ? nil : values.join("=").strip
+            end
           end
         end
       end
