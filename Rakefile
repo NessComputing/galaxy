@@ -30,7 +30,7 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-if RUBY_VERSION =~ /^1\.9/
+if RUBY_VERSION.gsub('.', '').to_i >= 190
   desc "Code coverage detail"
   task :simplecov do
     ENV['COVERAGE'] = "true"
