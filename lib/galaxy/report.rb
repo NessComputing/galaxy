@@ -169,10 +169,14 @@ module Galaxy
     class CoreSlotInfoReport < Report
       def record_result agent
         result = []
-        unless agent.slot_info.nil?
-          # This returns a map of the keys in the ostruct
-          slot_data = agent.slot_info.marshal_dump
-          dump_info(agent, [], slot_data)
+        slot_info = agent.slot_info
+        unless slot_info.nil?
+          # Convert OStruct to hashmap
+          if slot_info.respond_to?(:marshal_dump)
+            dump_info(agent, [], slot_info.marshal_dump)
+          else
+            dump_info(agent, [], slot_info)
+          end
         else
             @buffer +=sprintf "%10s %10s <no information received>\n", agent.agent_id, agent.agent_group
         end
