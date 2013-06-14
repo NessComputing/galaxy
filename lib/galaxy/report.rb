@@ -96,6 +96,13 @@ module Galaxy
       end
     end
 
+    # TODO assuure the json report returns proper data
+    class SoftwareDeploymentJsonReport
+      private
+
+
+    end
+
     class CoreStatusReport < Report
       private
 

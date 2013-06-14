@@ -37,12 +37,12 @@ module Galaxy
 
     def to_hash(obj)
       hash = {}
-      if obj.respond_to?("marshal_dump")
-        hash = obj.marshal_dump
-        
-        hash[:slot_info] = hash[:slot_info].marshal_dump if hash.has_key?(:slot_info) and hash[:slot_info].respond_to?("marshal_dump")
-      end
-      
+      hash = obj.marshal_dump if obj.respond_to?("marshal_dump")
+      hash = obj if obj.class.to_s == "Hash"
+
+      sinfo = hash[:slot_info] || {}
+      sinfo = sinfo.marshal_dump if sinfo.respond_to?("marshal_dump")
+      hash[:slot_info] = slot_info
       hash
     end
   end
