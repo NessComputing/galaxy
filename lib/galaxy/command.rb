@@ -24,6 +24,13 @@ module Galaxy
         attr_reader :name
       end
 
+      def name_sort agents
+        agents.sort_by do |agent|
+          prefix, id = agent.agent_id.match(/^(.*?)-s(\d+)$/).captures
+          [ prefix, id.to_i ]
+        end
+      end
+
       def self.register_command name
         @name = name
         Galaxy::Commands.register_command name, self

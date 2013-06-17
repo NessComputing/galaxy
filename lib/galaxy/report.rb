@@ -1,3 +1,5 @@
+require 'json'
+
 module Galaxy
   module Client
     class Report
@@ -96,11 +98,13 @@ module Galaxy
       end
     end
 
-    # TODO assuure the json report returns proper data
+    # TODO assure the json report returns proper data
     class SoftwareDeploymentJsonReport
       private
 
-
+      def start
+        
+      end
     end
 
     class CoreStatusReport < Report

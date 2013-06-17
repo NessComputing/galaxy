@@ -9,7 +9,7 @@ module Galaxy
 
       def execute agents
         report.start
-        agents.sort_by { |agent| agent.agent_id }.each do |agent|
+        name_sort(agents).each do |agent|
             report.record_result agent
         end
         report.finish
