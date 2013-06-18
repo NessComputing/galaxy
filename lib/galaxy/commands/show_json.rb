@@ -4,15 +4,12 @@ module Galaxy
       register_command "show-json"
 
       def report_class
-        # Galaxy::Client::SoftwareDeploymentJsonReport
-        Galaxy::Client::CoreSlotInfoReport
+        Galaxy::Client::SoftwareDeploymentJsonReport
       end
 
       def execute agents
         report.start
-        name_sort(agents).each do |agent|
-          report.record_result agent
-        end
+        report.format_json name_sort(agents)
         report.finish
       end
 

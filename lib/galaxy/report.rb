@@ -98,12 +98,30 @@ module Galaxy
       end
     end
 
-    # TODO assure the json report returns proper data
-    class SoftwareDeploymentJsonReport
-      private
+    class SoftwareDeploymentJsonReport < Report
+      def format_json agents
+        @buffer = agents.inject({}) do |res, agent|
+          formal_type = (agent.core_type || "empty-service")\
+            .split(" ").map { |s| s.capitalize }.join\
+            .split("-").map { |s| s.capitalize }.join
 
-      def start
-        
+          url = [ agent.slot_info.env["internal_ip"],
+                  agent.slot_info.env["internal_http"] ].join(':')
+
+          res["agents"] ||= []
+          res["agents"] << {
+            :id => agent.agent_id,
+            :group => agent.agent_group,
+            :config_path => agent.config_path,
+            :status => agent.status,
+            :type => agent.core_type,
+            :formal_type => formal_type,
+            :build => agent.build,
+            :url => url,
+            :agent_status => agent.agent_status
+          }
+          res
+        end.to_json
       end
     end
 
